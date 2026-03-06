@@ -5,6 +5,7 @@ import MovieUI from "@/app/movies/components/MovieUI";
 import { Box } from "@mui/material";
 import { useRouter } from "next/navigation";
 import Button from "@mui/material/Button";
+import NewMovieEntry from "../NewMovieEntry";
 
 interface MovieListProps {
   movies: Movie[];
@@ -44,6 +45,7 @@ function renderAction(movie: Movie) {
 export default function MovieList({ movies }: MovieListProps) {
   return (
     <div>
+      <NewMovieEntry />
       {movies.map((movie) => (
         <MovieUI
           movie={movie}
