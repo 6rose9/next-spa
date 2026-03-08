@@ -6,12 +6,25 @@ import { Box } from "@mui/material";
 import { useRouter } from "next/navigation";
 import Button from "@mui/material/Button";
 import NewMovieEntry from "../NewMovieEntry";
+import { useState } from "react";
+import ConfirmDialog from "@/app/components/ConfirmDialog";
 
 interface MovieListProps {
   movies: Movie[];
 }
 function renderAction(movie: Movie) {
   const router = useRouter();
+
+  const [openConfirm, setOpenConfirm] = useState(false);
+
+  // Handlers
+  const onOkHandler = () => {
+    console.log("Ok Handler");
+  };
+
+  const onCancelHandler = () => {
+    console.log("Cancel Handler");
+  };
 
   const onDetailHandler = () => {
     console.log("Go to details");
@@ -20,10 +33,18 @@ function renderAction(movie: Movie) {
 
   const onDeleteHandler = () => {
     console.log("Go to delete");
+    setOpenConfirm(true);
   };
 
   return (
     <Box sx={{ alignItems: "flex-end" }}>
+      <ConfirmDialog
+        message="Are you sure you want to delete movie?"
+        dlgOpen={openConfirm}
+        onOk={onOkHandler}
+        onCancel={onCancelHandler}
+        setOpen={setOpenConfirm}
+      />
       &nbsp;
       <Button
         variant="contained"

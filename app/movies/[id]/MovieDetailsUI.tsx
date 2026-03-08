@@ -2,6 +2,7 @@
 import { Movie, Review } from "@/lib/types";
 import MovieUI from "@/app/movies/components/MovieUI";
 import ReviewUI from "@/app/movies/components/ReviewUI";
+import EditMovie from "@/app/movies/components/EditMovie";
 
 interface MovieDetailsUI {
   movie: Movie;
@@ -33,10 +34,21 @@ const reviews: Review[] = [
   },
 ];
 
+function renderAction(movie: Movie) {
+  return (
+    <div>
+      <EditMovie movie={movie} />
+    </div>
+  );
+}
+
 export default function MovieDetailsUI({ movie }: MovieDetailsUI) {
   return (
     <div>
-      <MovieUI movie={movie} />
+      <MovieUI
+        movie={movie}
+        render={renderAction}
+      />
       {reviews.map((review) => (
         <ReviewUI
           key={review._id}
