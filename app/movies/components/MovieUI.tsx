@@ -38,7 +38,7 @@ export default function MovieUI({ movie, render }: MovieUIProps) {
               component="div"
               variant="h6"
             >
-              {movie.director.name}
+              {movie.director?.name}
             </Typography>
           </CardContent>
 

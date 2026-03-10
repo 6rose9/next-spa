@@ -5,14 +5,17 @@ import MovieUI from "@/app/movies/components/MovieUI";
 import { Box } from "@mui/material";
 import { useRouter } from "next/navigation";
 import Button from "@mui/material/Button";
-import NewMovieEntry from "../NewMovieEntry";
 import { useState } from "react";
 import ConfirmDialog from "@/app/components/ConfirmDialog";
+import { useDeleteMovieMutation } from "@/lib/features/movie/movieApiSlice";
 
 interface MovieListProps {
   movies: Movie[];
 }
+
 function renderAction(movie: Movie) {
+  const [deleteMovie, deleteMovieResult] = useDeleteMovieMutation();
+
   const router = useRouter();
 
   const [openConfirm, setOpenConfirm] = useState(false);
@@ -20,6 +23,11 @@ function renderAction(movie: Movie) {
   // Handlers
   const onOkHandler = () => {
     console.log("Ok Handler");
+    deleteMovie(movie)
+      .unwrap()
+      .then((result) => {
+        console.log("Movie successfully deleted");
+      });
   };
 
   const onCancelHandler = () => {
@@ -66,7 +74,6 @@ function renderAction(movie: Movie) {
 export default function MovieList({ movies }: MovieListProps) {
   return (
     <div>
-      <NewMovieEntry />
       {movies.map((movie) => (
         <MovieUI
           movie={movie}

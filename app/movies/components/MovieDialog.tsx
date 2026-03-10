@@ -10,6 +10,10 @@ import { TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { movieSchema, movieSchemaForm } from "@/lib/schema/movieSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  useSaveMovieMutation,
+  useUpdateMovieMutation,
+} from "@/lib/features/movie/movieApiSlice";
 
 interface MovieDialogProps {
   movieToEdit?: Movie;
@@ -21,6 +25,8 @@ export default function MovieDialog({
   setOpen,
   movieToEdit,
 }: MovieDialogProps) {
+  const [saveMovie, saveMovieResult] = useSaveMovieMutation();
+  const [updateMovie, updateMovieResult] = useUpdateMovieMutation();
   const {
     register,
     handleSubmit,
@@ -39,7 +45,7 @@ export default function MovieDialog({
       },
     },
   });
-  console.log("render MovieDialog");
+  // console.log("render MovieDialog");
 
   const handleClose = () => {
     setOpen(false);
@@ -48,11 +54,32 @@ export default function MovieDialog({
   const onSubmit = (data: movieSchemaForm) => {
     if (movieToEdit) {
       console.log("Update movie");
+      let movieToUpdate: Movie = {
+        ...movieToEdit,
+        ...data,
+        director: {
+          ...movieToEdit.director,
+          ...data.director,
+        },
+      };
+      updateMovie(movieToUpdate)
+        .unwrap()
+        .then((result) => {
+          console.log("Updated movie ", result);
+          setOpen(false);
+          reset();
+        });
+    } else {
+      saveMovie(data as Partial<Movie>)
+        .unwrap()
+        .then((result) => {
+          console.log("Saved movie ", result);
+          setOpen(false);
+          reset();
+        });
     }
   };
 
-  //console.log('errors ',errors);
-  //console.log('TouchFields', touchedFields);
   if (!open) {
     return null;
   } else {
