@@ -14,6 +14,10 @@ import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
 import { useState } from "react";
 import ReviewDialog from "./ReviewDialog";
+import {
+  useDeleteReviewMutation,
+  useSaveReviewMutation,
+} from "@/lib/features/review/reviewApiSlice";
 
 interface ReviewUI {
   review: Review;
@@ -22,15 +26,18 @@ interface ReviewUI {
 export default function ReviewUI({ review }: ReviewUI) {
   const [openConfirm, setOpenConfirm] = useState(false);
   const [open, setOpen] = useState(false);
+  const [deleteReview, deleteReviewResult] = useDeleteReviewMutation();
 
   const onOkHandler = () => {
-    console.log("Ok Handler");
+    deleteReview(review).then(() => {
+      console.log("Review successfully deleted");
+    });
   };
   const onCancelHandler = () => {
     console.log("Cancel Handler");
   };
   const onDeleteHandler = () => {
-    console.log("Go to delete");
+    setOpenConfirm(true);
   };
   const handleClickOpen = () => {
     setOpen(true);

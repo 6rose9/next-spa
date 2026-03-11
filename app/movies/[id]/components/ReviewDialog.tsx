@@ -14,6 +14,10 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
+import {
+  useSaveReviewMutation,
+  useUpdateReviewMutation,
+} from "@/lib/features/review/reviewApiSlice";
 
 interface ReviewDialogProps {
   movieId: string;
@@ -29,6 +33,8 @@ export default function ReviewDialog({
   setOpen,
 }: ReviewDialogProps) {
   const [rating, setRating] = useState(reviewToEdit ? reviewToEdit.rating : 0);
+  const [saveReview, saveReviewResult] = useSaveReviewMutation();
+  const [updateReview, updateReviewResult] = useUpdateReviewMutation();
 
   const handleClose = () => {
     setOpen(false);
@@ -49,6 +55,7 @@ export default function ReviewDialog({
       review: reviewToEdit ? reviewToEdit.review : "",
     },
   });
+
   const onSubmit = (data: ReviewSchemaForm) => {
     if (reviewToEdit) {
       let reviewToUpdate = {
@@ -56,12 +63,25 @@ export default function ReviewDialog({
         ...data,
       };
       console.log("update ", reviewToUpdate);
+      updateReview(reviewToUpdate)
+        .unwrap()
+        .then((result) => {
+          console.log("Result ", result);
+          setOpen(false);
+        });
     } else {
       let reviewToSave: Partial<Review> = {
         ...data,
         movie: movieId,
       };
       console.log("Save Review  submit ", reviewToSave);
+      saveReview(reviewToSave)
+        .unwrap()
+        .then(() => {
+          reset();
+          setRating(0);
+          setOpen(false);
+        });
     }
   };
 
@@ -70,6 +90,7 @@ export default function ReviewDialog({
     setValue("rating", num);
     setRating(num);
   };
+
   if (!open) {
     return null;
   } else {
