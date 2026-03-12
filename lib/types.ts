@@ -11,6 +11,7 @@ export interface Movie extends BaseModel {
   title: string;
   director: Director;
   year: number;
+  phoneNo?: string;
 }
 
 export interface Review extends BaseModel {

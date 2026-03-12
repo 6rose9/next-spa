@@ -53,21 +53,20 @@ export default function MovieDialog({
 
   const onSubmit = (data: movieSchemaForm) => {
     if (movieToEdit) {
-      console.log("Update movie");
       let movieToUpdate: Movie = {
         ...movieToEdit,
         ...data,
         director: {
           ...movieToEdit.director,
           ...data.director,
+          ...(data.director.phoneNo && { phoneNo: data.director.phoneNo }),
         },
       };
       updateMovie(movieToUpdate)
         .unwrap()
         .then((result) => {
-          console.log("Updated movie ", result);
           setOpen(false);
-          reset();
+          reset(result);
         });
     } else {
       saveMovie(data as Partial<Movie>)

@@ -40,6 +40,10 @@ export default function MovieUI({ movie, render }: MovieUIProps) {
             >
               {movie.director?.name}
             </Typography>
+
+            {movie.director?.phoneNo && (
+              <Typography component="div">{movie.director.phoneNo}</Typography>
+            )}
           </CardContent>
 
           {render?.(movie)}
