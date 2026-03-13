@@ -1,8 +1,9 @@
 import type { Action, ThunkAction } from "@reduxjs/toolkit";
 import { combineSlices, configureStore } from "@reduxjs/toolkit";
 import { movieApiSlice } from "@/lib/features/movie/movieApiSlice";
+import { authSlice } from "./features/auth/authSlice";
 
-const rootReducer = combineSlices(movieApiSlice);
+const rootReducer = combineSlices(movieApiSlice, authSlice);
 
 export type RootState = ReturnType<typeof rootReducer>;
 

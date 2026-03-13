@@ -11,8 +11,10 @@ import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import AdbIcon from "@mui/icons-material/Adb";
+import useAuth from "@/app/hooks/useAuth";
 
 export const Nav = () => {
+  const auth = useAuth();
   const pathname = usePathname();
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
@@ -93,15 +95,30 @@ export const Nav = () => {
             >
               Home
             </Link>
-            <Link
-              className={`${styles.link} ${
-                pathname === "/movies" ? styles.active : ""
-              }`}
-              style={navLinkStyle}
-              href="/movies"
-            >
-              Movies
-            </Link>
+
+            {auth && (
+              <Link
+                className={`${styles.link} ${
+                  pathname === "/movies" ? styles.active : ""
+                }`}
+                style={navLinkStyle}
+                href="/movies"
+              >
+                Movies
+              </Link>
+            )}
+
+            {!auth && (
+              <Link
+                className={`${styles.link} ${
+                  pathname === "/login" ? styles.active : ""
+                }`}
+                style={navLinkStyle}
+                href="/login"
+              >
+                Login
+              </Link>
+            )}
           </Box>
         </Toolbar>
       </Container>

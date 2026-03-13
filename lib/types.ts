@@ -19,3 +19,9 @@ export interface Review extends BaseModel {
   rating: number;
   review: string;
 }
+
+export interface LoginRequest
+{
+    username:string;
+    password:string;
+}
