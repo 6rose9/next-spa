@@ -119,6 +119,18 @@ export const Nav = () => {
                 Login
               </Link>
             )}
+
+            {auth && (
+              <Link
+                className={`${styles.link} ${
+                  pathname === "/logout" ? styles.active : ""
+                }`}
+                style={navLinkStyle}
+                href="/logout"
+              >
+                Logout
+              </Link>
+            )}
           </Box>
         </Toolbar>
       </Container>

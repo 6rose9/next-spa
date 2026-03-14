@@ -5,8 +5,9 @@ import MovieDetailsUI from "@/app/movies/[id]/MovieDetailsUI";
 import { Movie } from "@/lib/types";
 import Button from "@mui/material/Button";
 import { useGetAllMoviesQuery } from "@/lib/features/movie/movieApiSlice";
+import WithAuth from "@/app/components/WithAuth";
 
-export default function MovieDetailsPage() {
+function MovieDetailsPage() {
   const { id }: { id: string } = useParams<{
     id: string;
   }>();
@@ -42,3 +43,5 @@ export default function MovieDetailsPage() {
     );
   }
 }
+
+export default WithAuth(MovieDetailsPage);
